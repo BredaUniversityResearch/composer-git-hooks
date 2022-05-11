@@ -99,8 +99,14 @@ class AddCommand extends Command
             return;
         }
 
-        file_put_contents($filename, $hookContents);
-        chmod($filename, 0755);
+        if (false === file_put_contents($filename, $hookContents)) {
+            $this->error("[{$hook}] could not be written");
+            return;
+        }
+        if (false === chmod($filename, 0755)) {
+            $this->error("[{$hook}] could not set write permissions");
+            return;
+        }
 
         $operation = $exists ? 'Updated' : 'Added';
         $this->info("{$operation} [{$hook}] hook");
