@@ -86,17 +86,20 @@ class AddCommand extends Command
         $contents = Hook::getHookContents($composerDir, $contents, $hook);
         $hookContents = $shebang . $contents . PHP_EOL;
 
-        if (! $this->force && $exists) {
+        if ($exists) {
+            // do not continue if the content is already "up to date", forced or not
             $actualContents = file_get_contents($filename);
-
             if ($actualContents === $hookContents) {
                 $this->debug("[{$hook}] is up to date");
                 $this->upToDateHooks[] = $hook;
                 return;
             }
 
-            $this->debug("[{$hook}] already exists");
-            return;
+            // only continue if forced
+            if (!$this->force) {
+                $this->debug("[{$hook}] already exists");
+                return;
+            }
         }
 
         if (false === file_put_contents($filename, $hookContents)) {
