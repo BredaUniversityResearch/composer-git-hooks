@@ -12,7 +12,7 @@ class RemoveCommand extends Command
     private $lockFileHooks;
     private $hooksToRemove;
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('remove')
@@ -35,7 +35,7 @@ class RemoveCommand extends Command
         ;
     }
 
-    protected function init(InputInterface $input)
+    protected function init(InputInterface $input): void
     {
         $this->force = $input->getOption('force');
         $this->lockFileHooks = file_exists($this->lockFile)
@@ -45,7 +45,7 @@ class RemoveCommand extends Command
         $this->hooksToRemove = empty($hooks) ? array_keys($this->hooks) : $hooks;
     }
 
-    protected function command()
+    protected function command(): void
     {
         foreach ($this->hooksToRemove as $hook) {
             $filename = "{$this->dir}/hooks/{$hook}";

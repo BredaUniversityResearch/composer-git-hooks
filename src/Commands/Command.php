@@ -19,9 +19,9 @@ abstract class Command extends SymfonyCommand
     protected $global;
     protected $lockFile;
 
-    abstract protected function init(InputInterface $input);
+    abstract protected function init(InputInterface $input): void;
 
-    abstract protected function command();
+    abstract protected function command(): void;
 
     final protected function execute(InputInterface $input, OutputInterface $output): int
     {

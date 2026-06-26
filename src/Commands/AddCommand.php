@@ -16,7 +16,7 @@ class AddCommand extends Command
     protected $windows;
     protected $ignoreLock;
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('add')
@@ -32,7 +32,7 @@ class AddCommand extends Command
         ;
     }
 
-    protected function init(InputInterface $input)
+    protected function init(InputInterface $input): void
     {
         $this->force = $input->getOption('force');
         $this->windows = $input->getOption('force-win') || is_windows();
@@ -40,7 +40,7 @@ class AddCommand extends Command
         $this->ignoreLock = $input->getOption('ignore-lock');
     }
 
-    protected function command()
+    protected function command(): void
     {
         if (empty($this->dir)) {
             $this->error('You did not specify a git directory to use');

@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputOption;
 
 class ListCommand extends Command
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('list-hooks')
@@ -19,11 +19,11 @@ class ListCommand extends Command
         ;
     }
 
-    protected function init(InputInterface $input)
+    protected function init(InputInterface $input): void
     {
     }
 
-    protected function command()
+    protected function command(): void
     {
         foreach (array_keys($this->hooks) as $hook) {
             $filename = "{$this->dir}/hooks/{$hook}";
