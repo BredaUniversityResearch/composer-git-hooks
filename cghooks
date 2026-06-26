@@ -24,13 +24,16 @@ use Symfony\Component\Console\Application;
 
 $application = new Application('Composer Git Hooks', '3.0.0');
 
-$application->add(new AddCommand());
-$application->add(new UpdateCommand());
-$application->add(new RemoveCommand());
-$application->add(new ListCommand());
+// Symfony 8 prefers addCommand(), while older versions expose add().
+$registerCommandMethod = method_exists($application, 'addCommand') ? 'addCommand' : 'add';
+
+$application->{$registerCommandMethod}(new AddCommand());
+$application->{$registerCommandMethod}(new UpdateCommand());
+$application->{$registerCommandMethod}(new RemoveCommand());
+$application->{$registerCommandMethod}(new ListCommand());
 
 foreach (Hook::getValidHooks($dir) as $hook => $script) {
-    $application->add(new HookCommand($hook, $script, $dir));
+    $application->{$registerCommandMethod}(new HookCommand($hook, $script, $dir));
 }
 
 $application->run();
